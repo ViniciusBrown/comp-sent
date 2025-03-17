@@ -51,7 +51,7 @@ export function SentimentSummary({ company, data: propData }: SentimentSummaryPr
 
   if (loading) {
     return (
-      <Card className='min-h-full w-[50%]'>
+      <Card className='min-h-full w-[25%]'>
         <CardHeader>
           <CardTitle>Loading sentiment data...</CardTitle>
         </CardHeader>
@@ -61,7 +61,7 @@ export function SentimentSummary({ company, data: propData }: SentimentSummaryPr
 
   if (error) {
     return (
-      <Card className='min-h-full w-[50%]'>
+      <Card className='min-h-full w-[25%]'>
         <CardHeader>
           <CardTitle>Error</CardTitle>
         </CardHeader>
@@ -74,7 +74,7 @@ export function SentimentSummary({ company, data: propData }: SentimentSummaryPr
 
   if (!data) {
     return (
-      <Card className='min-h-full w-[50%]'>
+      <Card className='min-h-full w-[25%]'>
         <CardHeader>
           <CardTitle>No data available</CardTitle>
         </CardHeader>
@@ -85,7 +85,7 @@ export function SentimentSummary({ company, data: propData }: SentimentSummaryPr
   const { sentiment_summary } = data;
 
   return (
-    <Card className='min-h-full w-[50%]'>
+    <Card className='min-h-full w-[25%]'>
       <CardHeader>
         <CardTitle>Sentiment Summary</CardTitle>
       </CardHeader>

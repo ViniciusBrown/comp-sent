@@ -18,22 +18,36 @@ import { companies as mockCompanies } from '@/data/companies';
 
 function App() {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(mockCompanies[0].id);
-  const [sentimentData, setSentimentData] = useState<SentimentData | null>(null);
+  // Store data for all time periods
+  const [sentimentDataCache, setSentimentDataCache] = useState<Record<string, SentimentData>>({});
   const [timeFilter, setTimeFilter] = useState("month");
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const timeFilters = ["day", "week", "month", "sixMonths", "year"];
   const { isAuthenticated } = useAuth();
 
-  // Fetch sentiment data when selected company or time filter changes
+  // Fetch sentiment data for all time periods
   const fetchSentimentData = async () => {
     setIsLoading(true);
     setError(null);
     
     try {
-      const data = await apiService.getCompanySentimentData(selectedCompanyId, timeFilter);
-      setSentimentData(data);
-      console.log(data)
+      // Fetch data for all time periods in parallel
+      const promises = timeFilters.map(filter =>
+        apiService.getCompanySentimentData(selectedCompanyId, filter)
+      );
+      
+      const results = await Promise.all(promises);
+      
+      // Create cache object with data for each time period
+      const newCache = timeFilters.reduce((cache, filter, index) => ({
+        ...cache,
+        [filter]: results[index]
+      }), {});
+      
+      setSentimentDataCache(newCache);
     } catch (err) {
       setError('Failed to load sentiment data');
       console.error('Error fetching sentiment data:', err);
@@ -42,11 +56,9 @@ function App() {
     }
   };
 
-
-
   useEffect(() => {
     fetchSentimentData();
-  }, [selectedCompanyId, timeFilter]);
+  }, [selectedCompanyId]); // Only fetch when company changes
 
   // Get time period label
   const getTimePeriodLabel = () => {
@@ -60,16 +72,17 @@ function App() {
     }
   };
 
-  // Combine company and sentiment data
+  // Combine company and sentiment data for current time filter
   const getCompanyWithSentiment = () => {
-    if (!sentimentData) return null;
+    const currentData = sentimentDataCache[timeFilter];
+    if (!currentData) return null;
 
     const selectedCompany = mockCompanies.find(c => c.id === selectedCompanyId);
     if (!selectedCompany) return null;
 
     return {
       ...selectedCompany,
-      ...sentimentData,
+      ...currentData,
       time_period: getTimePeriodLabel()
     };
   };

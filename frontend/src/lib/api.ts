@@ -186,6 +186,55 @@ class ApiService {
 
 // Extended API service with sentiment methods
 class ExtendedApiService extends ApiService {
+  private extractKeyTopics(tweets: Array<{ text: string; score: number }>): Array<{ topic: string; count: number; sentiment_score: number }> {
+    // Create a map to store topic frequencies and sentiment scores
+    const topicMap = new Map<string, { count: number; totalScore: number }>();
+    
+    // Process each tweet
+    tweets.forEach(tweet => {
+      // Extract words from tweet text
+      const words = tweet.text.toLowerCase()
+        .replace(/[^a-zA-Z0-9\s#@]/g, '')
+        .split(/\s+/)
+        .filter(word => word.length > 3); // Filter out short words
+      
+      // Process hashtags and mentions separately
+      const hashtags = tweet.text.match(/#\w+/g) || [];
+      const mentions = tweet.text.match(/@\w+/g) || [];
+      
+      // Combine all potential topics
+      const potentialTopics = [...words, ...hashtags, ...mentions];
+      
+      // Update topic map
+      const processedTopics = new Set(); // To avoid counting same topic multiple times in one tweet
+      potentialTopics.forEach(topic => {
+        if (!processedTopics.has(topic)) {
+          processedTopics.add(topic);
+          
+          if (!topicMap.has(topic)) {
+            topicMap.set(topic, { count: 0, totalScore: 0 });
+          }
+          
+          const topicData = topicMap.get(topic)!;
+          topicData.count += 1;
+          topicData.totalScore += tweet.score;
+        }
+      });
+    });
+    
+    // Convert map to array and calculate average sentiment
+    const topics = Array.from(topicMap.entries())
+      .map(([topic, data]) => ({
+        topic,
+        count: data.count,
+        sentiment_score: Number((data.totalScore / data.count).toFixed(2))
+      }))
+      .filter(topic => topic.count > 1) // Filter out topics that appear only once
+      .sort((a, b) => b.count - a.count) // Sort by frequency
+      .slice(0, 10); // Take top 10 topics
+    
+    return topics;
+  }
   async getCompanySentimentData(company: string, timeFilter: string = 'month'): Promise<SentimentData> {
     const response = await this.get<Array<{
       id: string;
@@ -320,7 +369,7 @@ class ExtendedApiService extends ApiService {
             }
           }))
       },
-      key_topics: [] // We don't have topic data in the raw social media data
+      key_topics: this.extractKeyTopics(filteredData)
     };
   }
 }

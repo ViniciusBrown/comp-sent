@@ -45,7 +45,7 @@ export function SentimentTrend({ company, data: propData }: SentimentTrendProps)
 
   if (loading) {
     return (
-      <Card className="h-[100%] w-[50%]">
+      <Card className="h-[100%] w-[75%]">
         <CardHeader>
           <CardTitle>Loading sentiment trend...</CardTitle>
         </CardHeader>
@@ -68,7 +68,7 @@ export function SentimentTrend({ company, data: propData }: SentimentTrendProps)
 
   if (!data) {
     return (
-      <Card className="h-[100%] w-[50%]">
+      <Card className="h-[100%] w-[75%]">
         <CardHeader>
           <CardTitle>No data available</CardTitle>
         </CardHeader>
@@ -102,15 +102,18 @@ export function SentimentTrend({ company, data: propData }: SentimentTrendProps)
     date: formatDate(item.date),
   }));
 
-  // Determine if we need to show every label or skip some
+  // Dynamically determine label interval based on data length
   const getTickInterval = () => {
-    if (chartData.length <= 10) return 0; // Show all labels
-    if (chartData.length <= 20) return 1; // Show every other label
-    return 2; // Show every third label
+    const length = chartData.length;
+    if (length <= 7) return 0; // Show all labels for small datasets
+    if (length <= 15) return 1; // Show every other label
+    if (length <= 30) return 2; // Show every third label
+    if (length <= 60) return 4; // Show every fifth label
+    return Math.floor(length / 12); // Show roughly 12 labels for larger datasets
   };
 
   return (
-    <Card className="h-[100%] w-[50%]">
+    <Card className="h-[100%] w-[75%]">
       <CardHeader>
         <CardTitle>Sentiment Trend</CardTitle>
       </CardHeader>
@@ -122,18 +125,20 @@ export function SentimentTrend({ company, data: propData }: SentimentTrendProps)
                 data={chartData}
                 margin={{
                   top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
+                  right: 35,
+                  left: 5,
+                  bottom: chartData.length > 15 ? 40 : 20,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   interval={getTickInterval()}
-                  angle={chartData.length > 20 ? -45 : 0}
-                  textAnchor={chartData.length > 20 ? "end" : "middle"}
-                  height={chartData.length > 20 ? 60 : 30}
+                  angle={chartData.length > 15 ? -35 : 0}
+                  textAnchor={chartData.length > 15 ? "end" : "middle"}
+                  height={chartData.length > 15 ? 45 : 30}
+                  tick={{ fontSize: 12 }}
+                  tickMargin={chartData.length > 15 ? 15 : 5}
                 />
                 <YAxis yAxisId="left" domain={[0, 1]} tickFormatter={(value) => value.toFixed(1)} />
                 <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']} />

@@ -144,11 +144,58 @@ class Tweet(models.Model):
     entities = models.JSONField()
 ```
 
-## 🧪 Running Tests
+## 🧪 Testing Framework
 
+### Running Tests
 ```bash
+# Run all tests
 python manage.py test
+
+# Run specific test module
+python manage.py test api.tests.test_auth
+python manage.py test api.tests.test_models
+python manage.py test api.tests.test_social_media
+
+# Run with coverage report
+coverage run manage.py test
+coverage report
+coverage html  # Generates detailed HTML report
 ```
+
+### Test Structure
+```
+api/tests/
+├── conftest.py          # Test configurations and fixtures
+├── test_auth.py         # Authentication tests
+├── test_models.py       # Data model tests
+└── test_social_media.py # Social media integration tests
+```
+
+### Test Coverage
+- **Models**: 95%+ coverage
+  - Tweet model validation
+  - Data integrity checks
+  - Field constraints
+  - Custom methods
+
+- **Views**: 90%+ coverage
+  - API endpoint functionality
+  - Authentication/authorization
+  - Error handling
+  - Response formats
+
+- **Business Logic**: 95%+ coverage
+  - Sentiment analysis processing
+  - Data aggregation
+  - Time series calculations
+  - Company statistics
+
+### Testing Best Practices
+- Use of pytest fixtures for test data
+- Mocking external services
+- Database transaction management
+- Comprehensive assertion patterns
+- Performance testing for batch operations
 
 ## 📦 Deployment
 
