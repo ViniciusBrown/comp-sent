@@ -1,0 +1,964 @@
+[
+  {
+    "company": "Tesla, Inc.",
+    "logo_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop",
+    "time_period": "Last 30 days",
+    "sentiment_summary": {
+      "overall_score": 0.59,
+      "positive_percentage": 63,
+      "negative_percentage": 37,
+      "neutral_percentage": 0,
+      "total_tweets": 400
+    },
+    "sentiment_trend": [
+      {
+        "date": "2025-02-11",
+        "average_score": 0.55,
+        "tweet_count": 48
+      },
+      {
+        "date": "2025-02-18",
+        "average_score": 0.58,
+        "tweet_count": 99
+      },
+      {
+        "date": "2025-02-25",
+        "average_score": 0.6,
+        "tweet_count": 83
+      },
+      {
+        "date": "2025-03-04",
+        "average_score": 0.57,
+        "tweet_count": 94
+      },
+      {
+        "date": "2025-03-11",
+        "average_score": 0.64,
+        "tweet_count": 76
+      }
+    ],
+    "top_tweets": {
+      "positive": [
+        {
+          "id": "5e2cdb76-791a-4263-8c64-c2ea8a1f3203",
+          "text": "acceleration is mind-blowing",
+          "created_at": "2025-03-14T10:54:54.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.91
+          },
+          "user": {
+            "username": "cloudninja14",
+            "name": "Emma Garcia",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 7100
+          },
+          "metrics": {
+            "retweet_count": 85,
+            "reply_count": 18,
+            "like_count": 281,
+            "quote_count": 6
+          }
+        },
+        {
+          "id": "2881faa5-61df-47bb-bee5-14037d53d5aa",
+          "text": "zero emissions and loving it",
+          "created_at": "2025-02-26T03:51:04.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.93
+          },
+          "user": {
+            "username": "webmaster",
+            "name": "Jackson Thomas",
+            "profile_image_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 5737
+          },
+          "metrics": {
+            "retweet_count": 33,
+            "reply_count": 42,
+            "like_count": 202,
+            "quote_count": 8
+          }
+        },
+        {
+          "id": "99f61440-f67c-4e70-9ac9-393c77183456",
+          "text": "love my new Supercharger #EV #ModelS #Model3",
+          "created_at": "2025-03-14T17:21:22.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.88
+          },
+          "user": {
+            "username": "webexpert",
+            "name": "Jessica Jackson",
+            "profile_image_url": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 8320
+          },
+          "metrics": {
+            "retweet_count": 9,
+            "reply_count": 25,
+            "like_count": 93,
+            "quote_count": 8
+          },
+          "entities": {
+            "hashtags": [
+              "EV",
+              "ModelS",
+              "Model3"
+            ]
+          }
+        },
+        {
+          "id": "0d299f94-1908-4f62-8aa0-f40ad186b861",
+          "text": "saving so much on gas #FSD",
+          "created_at": "2025-03-02T21:37:26.106986",
+          "sentiment": {
+            "score": 0.94,
+            "label": "positive",
+            "confidence": 0.86
+          },
+          "user": {
+            "username": "futureuser213",
+            "name": "William Harris",
+            "profile_image_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 9322
+          },
+          "metrics": {
+            "retweet_count": 85,
+            "reply_count": 15,
+            "like_count": 243,
+            "quote_count": 7
+          },
+          "entities": {
+            "hashtags": [
+              "FSD"
+            ]
+          }
+        },
+        {
+          "id": "777861a1-a693-478b-af28-68bde5aaa984",
+          "text": "supercharger network is fantastic #FSD",
+          "created_at": "2025-03-11T02:03:20.106986",
+          "sentiment": {
+            "score": 0.94,
+            "label": "positive",
+            "confidence": 0.96
+          },
+          "user": {
+            "username": "digitalgeek",
+            "name": "Richard Johnson",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 8014
+          },
+          "metrics": {
+            "retweet_count": 81,
+            "reply_count": 43,
+            "like_count": 191,
+            "quote_count": 16
+          },
+          "entities": {
+            "hashtags": [
+              "FSD"
+            ]
+          }
+        }
+      ],
+      "negative": [
+        {
+          "id": "eedc5e11-db2c-41b4-860f-dff38562177f",
+          "text": "FSD still not fully working",
+          "created_at": "2025-02-17T11:24:45.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.83
+          },
+          "user": {
+            "username": "webenthusiast19",
+            "name": "William Harris",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 5853
+          },
+          "metrics": {
+            "retweet_count": 45,
+            "reply_count": 10,
+            "like_count": 136,
+            "quote_count": 13
+          }
+        },
+        {
+          "id": "12bd6d2f-6587-43c8-8abc-476a3528e714",
+          "text": "software update broke features",
+          "created_at": "2025-03-01T16:31:50.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.87
+          },
+          "user": {
+            "username": "socialfan",
+            "name": "Richard Brown",
+            "profile_image_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 550
+          },
+          "metrics": {
+            "retweet_count": 29,
+            "reply_count": 31,
+            "like_count": 131,
+            "quote_count": 4
+          }
+        },
+        {
+          "id": "abf54aeb-c352-4abc-9eda-6337a609bbc5",
+          "text": "FSD still not fully working",
+          "created_at": "2025-03-01T06:01:56.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "webgeek",
+            "name": "Thomas Johnson",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 7950
+          },
+          "metrics": {
+            "retweet_count": 10,
+            "reply_count": 2,
+            "like_count": 37,
+            "quote_count": 3
+          }
+        },
+        {
+          "id": "ffcb0539-785e-4529-9e57-b76f25e20c35",
+          "text": "autopilot disengaged unexpectedly",
+          "created_at": "2025-02-27T04:28:49.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.81
+          },
+          "user": {
+            "username": "happyuser19",
+            "name": "Nancy Taylor",
+            "profile_image_url": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 667
+          },
+          "metrics": {
+            "retweet_count": 21,
+            "reply_count": 18,
+            "like_count": 69,
+            "quote_count": 2
+          }
+        },
+        {
+          "id": "f5d81b38-792d-419e-bc7e-2f7aaa33127f",
+          "text": "software update broke features",
+          "created_at": "2025-03-06T10:32:50.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.92
+          },
+          "user": {
+            "username": "digitalfan879",
+            "name": "John Taylor",
+            "profile_image_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 4794
+          },
+          "metrics": {
+            "retweet_count": 12,
+            "reply_count": 12,
+            "like_count": 66,
+            "quote_count": 4
+          }
+        }
+      ]
+    },
+    "key_topics": [
+      {
+        "topic": "FSD",
+        "count": 35,
+        "sentiment_score": 0.7
+      },
+      {
+        "topic": "ModelY",
+        "count": 31,
+        "sentiment_score": 0.61
+      },
+      {
+        "topic": "EV",
+        "count": 29,
+        "sentiment_score": 0.57
+      },
+      {
+        "topic": "Tesla",
+        "count": 26,
+        "sentiment_score": 0.51
+      },
+      {
+        "topic": "Cybertruck",
+        "count": 26,
+        "sentiment_score": 0.54
+      }
+    ]
+  },
+  {
+    "company": "Microsoft",
+    "logo_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+    "time_period": "Last 30 days",
+    "sentiment_summary": {
+      "overall_score": 0.6,
+      "positive_percentage": 64,
+      "negative_percentage": 36,
+      "neutral_percentage": 0,
+      "total_tweets": 393
+    },
+    "sentiment_trend": [
+      {
+        "date": "2025-02-11",
+        "average_score": 0.64,
+        "tweet_count": 32
+      },
+      {
+        "date": "2025-02-18",
+        "average_score": 0.64,
+        "tweet_count": 99
+      },
+      {
+        "date": "2025-02-25",
+        "average_score": 0.59,
+        "tweet_count": 89
+      },
+      {
+        "date": "2025-03-04",
+        "average_score": 0.56,
+        "tweet_count": 86
+      },
+      {
+        "date": "2025-03-11",
+        "average_score": 0.58,
+        "tweet_count": 87
+      }
+    ],
+    "top_tweets": {
+      "positive": [
+        {
+          "id": "cc535e22-fd84-458d-ae92-c5243a34cd27",
+          "text": "PowerBI has changed how we use data #Microsoft",
+          "created_at": "2025-03-13T11:27:22.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.96
+          },
+          "user": {
+            "username": "cloudninja58",
+            "name": "Sophia Smith",
+            "profile_image_url": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 9637
+          },
+          "metrics": {
+            "retweet_count": 123,
+            "reply_count": 39,
+            "like_count": 257,
+            "quote_count": 11
+          },
+          "entities": {
+            "hashtags": [
+              "Microsoft"
+            ]
+          }
+        },
+        {
+          "id": "c43701aa-1d54-4e5f-82fd-d04b0da6ce60",
+          "text": "Azure services are rock solid",
+          "created_at": "2025-03-07T14:42:21.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.91
+          },
+          "user": {
+            "username": "happyuser69",
+            "name": "Joseph Anderson",
+            "profile_image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 4303
+          },
+          "metrics": {
+            "retweet_count": 121,
+            "reply_count": 13,
+            "like_count": 264,
+            "quote_count": 6
+          }
+        },
+        {
+          "id": "ac1ed91a-2b30-48f2-b885-893e1c045fad",
+          "text": "Microsoft has really turned things around #Windows11 #Office365 #Surface",
+          "created_at": "2025-02-18T23:48:25.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.92
+          },
+          "user": {
+            "username": "digitalexpert",
+            "name": "Linda Williams",
+            "profile_image_url": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 3480
+          },
+          "metrics": {
+            "retweet_count": 47,
+            "reply_count": 65,
+            "like_count": 279,
+            "quote_count": 26
+          },
+          "entities": {
+            "hashtags": [
+              "Windows11",
+              "Office365",
+              "Surface"
+            ]
+          }
+        },
+        {
+          "id": "b2ceddff-0fe5-442c-97c3-daf66e6e4622",
+          "text": "PowerBI has changed how we use data",
+          "created_at": "2025-02-21T14:41:06.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.9
+          },
+          "user": {
+            "username": "smartlover17",
+            "name": "Jackson Wright",
+            "profile_image_url": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 5150
+          },
+          "metrics": {
+            "retweet_count": 62,
+            "reply_count": 55,
+            "like_count": 256,
+            "quote_count": 17
+          }
+        },
+        {
+          "id": "a0dc93f6-b592-4a44-b990-e81aef08a436",
+          "text": "Microsoft has really turned things around #Surface #Xbox",
+          "created_at": "2025-02-24T08:16:15.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.92
+          },
+          "user": {
+            "username": "cloudlover83",
+            "name": "Susan Thompson",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 4848
+          },
+          "metrics": {
+            "retweet_count": 69,
+            "reply_count": 16,
+            "like_count": 165,
+            "quote_count": 8
+          },
+          "entities": {
+            "hashtags": [
+              "Surface",
+              "Xbox"
+            ]
+          }
+        }
+      ],
+      "negative": [
+        {
+          "id": "5a1db447-fe6d-49ed-a46c-628db38c3487",
+          "text": "Windows search is still terrible #Xbox",
+          "created_at": "2025-03-15T01:25:26.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.91
+          },
+          "user": {
+            "username": "happyenthusiast78",
+            "name": "Thomas White",
+            "profile_image_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 7379
+          },
+          "metrics": {
+            "retweet_count": 61,
+            "reply_count": 45,
+            "like_count": 154,
+            "quote_count": 11
+          },
+          "entities": {
+            "hashtags": [
+              "Xbox"
+            ]
+          }
+        },
+        {
+          "id": "a968df35-ce9f-4941-94ff-92841ab07a9c",
+          "text": "Windows search is still terrible",
+          "created_at": "2025-03-08T12:11:28.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "onlinegeek96",
+            "name": "Aiden Anderson",
+            "profile_image_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 9693
+          },
+          "metrics": {
+            "retweet_count": 70,
+            "reply_count": 22,
+            "like_count": 186,
+            "quote_count": 10
+          }
+        },
+        {
+          "id": "0a7bf284-25cc-455d-a6f8-13db65a81a7e",
+          "text": "too many service outages lately",
+          "created_at": "2025-02-25T15:29:00.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.9
+          },
+          "user": {
+            "username": "cyberfan34",
+            "name": "Olivia Jackson",
+            "profile_image_url": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 6721
+          },
+          "metrics": {
+            "retweet_count": 37,
+            "reply_count": 13,
+            "like_count": 109,
+            "quote_count": 4
+          }
+        },
+        {
+          "id": "7d9009c4-ebd4-46e0-8602-0f4357ce766d",
+          "text": "too many service outages lately",
+          "created_at": "2025-02-26T11:08:55.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.85
+          },
+          "user": {
+            "username": "digitalenthusiast22",
+            "name": "Joseph Walker",
+            "profile_image_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 8938
+          },
+          "metrics": {
+            "retweet_count": 12,
+            "reply_count": 13,
+            "like_count": 55,
+            "quote_count": 2
+          }
+        },
+        {
+          "id": "be496a4d-cbe2-4654-9402-9cd8b86735a1",
+          "text": "OneDrive sync issues are frustrating #Teams #Windows11 #Office365",
+          "created_at": "2025-02-27T08:03:48.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "cyberlover",
+            "name": "Robert Williams",
+            "profile_image_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 3544
+          },
+          "metrics": {
+            "retweet_count": 17,
+            "reply_count": 10,
+            "like_count": 37,
+            "quote_count": 2
+          },
+          "entities": {
+            "hashtags": [
+              "Teams",
+              "Windows11",
+              "Office365"
+            ]
+          }
+        }
+      ]
+    },
+    "key_topics": [
+      {
+        "topic": "Office365",
+        "count": 42,
+        "sentiment_score": 0.54
+      },
+      {
+        "topic": "Xbox",
+        "count": 40,
+        "sentiment_score": 0.63
+      },
+      {
+        "topic": "Teams",
+        "count": 38,
+        "sentiment_score": 0.57
+      },
+      {
+        "topic": "Windows11",
+        "count": 36,
+        "sentiment_score": 0.6
+      },
+      {
+        "topic": "Surface",
+        "count": 34,
+        "sentiment_score": 0.65
+      }
+    ]
+  },
+  {
+    "company": "Apple Inc.",
+    "logo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+    "time_period": "Last 30 days",
+    "sentiment_summary": {
+      "overall_score": 0.63,
+      "positive_percentage": 70,
+      "negative_percentage": 30,
+      "neutral_percentage": 0,
+      "total_tweets": 381
+    },
+    "sentiment_trend": [
+      {
+        "date": "2025-02-11",
+        "average_score": 0.73,
+        "tweet_count": 29
+      },
+      {
+        "date": "2025-02-18",
+        "average_score": 0.6,
+        "tweet_count": 95
+      },
+      {
+        "date": "2025-02-25",
+        "average_score": 0.6,
+        "tweet_count": 94
+      },
+      {
+        "date": "2025-03-04",
+        "average_score": 0.64,
+        "tweet_count": 92
+      },
+      {
+        "date": "2025-03-11",
+        "average_score": 0.67,
+        "tweet_count": 71
+      }
+    ],
+    "top_tweets": {
+      "positive": [
+        {
+          "id": "b79db103-2cbf-4628-8581-0f0c27216638",
+          "text": "best MacBook Pro ever #iPhone #MacBook #AirPods",
+          "created_at": "2025-03-05T18:03:25.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "onlinefan",
+            "name": "Nancy Robinson",
+            "profile_image_url": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 3259
+          },
+          "metrics": {
+            "retweet_count": 20,
+            "reply_count": 5,
+            "like_count": 88,
+            "quote_count": 4
+          },
+          "entities": {
+            "hashtags": [
+              "iPhone",
+              "MacBook",
+              "AirPods"
+            ]
+          }
+        },
+        {
+          "id": "a9a3a0f0-7d11-4515-b4ed-359c898a9efd",
+          "text": "impressed with the AirPods #iOS #AppleWatch",
+          "created_at": "2025-03-05T23:38:26.106986",
+          "sentiment": {
+            "score": 0.95,
+            "label": "positive",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "smartlover20",
+            "name": "Jessica Taylor",
+            "profile_image_url": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 7647
+          },
+          "metrics": {
+            "retweet_count": 15,
+            "reply_count": 5,
+            "like_count": 72,
+            "quote_count": 2
+          },
+          "entities": {
+            "hashtags": [
+              "iOS",
+              "AppleWatch"
+            ]
+          }
+        },
+        {
+          "id": "4a446459-4dfd-46c9-90e8-1eab8060f73a",
+          "text": "love my new AirPods",
+          "created_at": "2025-02-25T00:14:12.106986",
+          "sentiment": {
+            "score": 0.94,
+            "label": "positive",
+            "confidence": 0.93
+          },
+          "user": {
+            "username": "futurelover68",
+            "name": "Susan Brown",
+            "profile_image_url": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 1320
+          },
+          "metrics": {
+            "retweet_count": 103,
+            "reply_count": 85,
+            "like_count": 292,
+            "quote_count": 28
+          }
+        },
+        {
+          "id": "c27aa115-8168-4c9d-9149-a0a2b22e8682",
+          "text": "game changer",
+          "created_at": "2025-02-22T04:00:11.106986",
+          "sentiment": {
+            "score": 0.94,
+            "label": "positive",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "cybermaster59",
+            "name": "Patricia Johnson",
+            "profile_image_url": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 190
+          },
+          "metrics": {
+            "retweet_count": 112,
+            "reply_count": 68,
+            "like_count": 278,
+            "quote_count": 10
+          }
+        },
+        {
+          "id": "b5847eb8-0709-40a1-80b9-9217f37742b8",
+          "text": "amazing experience with MacBook Pro #AppleWatch #iPhone",
+          "created_at": "2025-03-07T08:01:21.106986",
+          "sentiment": {
+            "score": 0.94,
+            "label": "positive",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "webgeek",
+            "name": "Richard Lee",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 4073
+          },
+          "metrics": {
+            "retweet_count": 80,
+            "reply_count": 48,
+            "like_count": 269,
+            "quote_count": 11
+          },
+          "entities": {
+            "hashtags": [
+              "AppleWatch",
+              "iPhone"
+            ]
+          }
+        }
+      ],
+      "negative": [
+        {
+          "id": "b75b941c-fd8d-4831-baaa-716813c443da",
+          "text": "waste of money #MacBook #AppleWatch #Apple",
+          "created_at": "2025-03-04T23:07:01.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.94
+          },
+          "user": {
+            "username": "socialuser",
+            "name": "Sarah Miller",
+            "profile_image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 3620
+          },
+          "metrics": {
+            "retweet_count": 69,
+            "reply_count": 8,
+            "like_count": 159,
+            "quote_count": 12
+          },
+          "entities": {
+            "hashtags": [
+              "MacBook",
+              "AppleWatch",
+              "Apple"
+            ]
+          }
+        },
+        {
+          "id": "b2684de6-23fa-4fe1-9d52-d7fb455299f8",
+          "text": "wouldn't recommend iPhone 14 #Apple #iPad",
+          "created_at": "2025-02-20T19:14:08.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.88
+          },
+          "user": {
+            "username": "techenthusiast",
+            "name": "Emma Thomas",
+            "profile_image_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 6961
+          },
+          "metrics": {
+            "retweet_count": 34,
+            "reply_count": 4,
+            "like_count": 75,
+            "quote_count": 3
+          },
+          "entities": {
+            "hashtags": [
+              "Apple",
+              "iPad"
+            ]
+          }
+        },
+        {
+          "id": "a63a6dea-ec2e-4bfc-8d5a-6f8bcfa88c02",
+          "text": "having issues with my iPhone 14 #iPad #AirPods #MacBook",
+          "created_at": "2025-03-03T18:22:16.106986",
+          "sentiment": {
+            "score": 0.05,
+            "label": "negative",
+            "confidence": 0.89
+          },
+          "user": {
+            "username": "happymaster835",
+            "name": "Mary Jackson",
+            "profile_image_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 8671
+          },
+          "metrics": {
+            "retweet_count": 14,
+            "reply_count": 4,
+            "like_count": 39,
+            "quote_count": 1
+          },
+          "entities": {
+            "hashtags": [
+              "iPad",
+              "AirPods",
+              "MacBook"
+            ]
+          }
+        },
+        {
+          "id": "49e9a21e-4575-477b-adde-ca87761a1569",
+          "text": "having issues with my AirPods",
+          "created_at": "2025-03-08T04:22:38.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.84
+          },
+          "user": {
+            "username": "cybergeek355",
+            "name": "Emma Rodriguez",
+            "profile_image_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 4833
+          },
+          "metrics": {
+            "retweet_count": 53,
+            "reply_count": 31,
+            "like_count": 184,
+            "quote_count": 6
+          }
+        },
+        {
+          "id": "34372cb9-72ab-496e-8005-f71a73d733ad",
+          "text": "wouldn't recommend iOS 16",
+          "created_at": "2025-03-06T16:17:50.106986",
+          "sentiment": {
+            "score": 0.06,
+            "label": "negative",
+            "confidence": 0.94
+          },
+          "user": {
+            "username": "webpro",
+            "name": "Jennifer Thompson",
+            "profile_image_url": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=100&auto=format&fit=crop",
+            "followers_count": 7063
+          },
+          "metrics": {
+            "retweet_count": 34,
+            "reply_count": 40,
+            "like_count": 156,
+            "quote_count": 9
+          }
+        }
+      ]
+    },
+    "key_topics": [
+      {
+        "topic": "iOS",
+        "count": 47,
+        "sentiment_score": 0.64
+      },
+      {
+        "topic": "Apple",
+        "count": 42,
+        "sentiment_score": 0.65
+      },
+      {
+        "topic": "MacBook",
+        "count": 42,
+        "sentiment_score": 0.64
+      },
+      {
+        "topic": "iPhone",
+        "count": 39,
+        "sentiment_score": 0.6
+      },
+      {
+        "topic": "AppleWatch",
+        "count": 37,
+        "sentiment_score": 0.66
+      }
+    ]
+  }
+]
