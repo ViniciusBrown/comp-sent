@@ -13,12 +13,12 @@ export function CompanyHeader({ data }: CompanyHeaderProps) {
         <div className="h-12 w-12 rounded-full overflow-hidden">
           <img 
             src={data.logo_url} 
-            alt={data.company} 
+            alt={data.name}
             className="h-full w-full object-cover"
           />
         </div>
         <div>
-          <h2 className="text-2xl font-bold">{data.company}</h2>
+          <h2 className="text-2xl font-bold">{data.name}</h2>
           <div className="flex items-center text-sm text-muted-foreground">
             <Calendar className="mr-1 h-4 w-4" />
             <span>{data.time_period}</span>

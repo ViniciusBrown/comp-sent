@@ -16,15 +16,15 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { CompanySentiment } from '@/types';
+import { companies as mockCompanies } from '@/data/companies';
 
 interface CompanySearchProps {
-  companies: CompanySentiment[];
-  onSelectCompany: (company: CompanySentiment) => void;
-  currentCompany: CompanySentiment;
+  onSelectCompany: (companyId: string) => void;
+  currentCompanyId: string | null;
 }
 
-export function CompanySearch({ companies, onSelectCompany, currentCompany }: CompanySearchProps) {
+export function CompanySearch({ onSelectCompany, currentCompanyId }: CompanySearchProps) {
+  const currentCompany = currentCompanyId ? mockCompanies.find(c => c.id === currentCompanyId) : mockCompanies[0];
   const [open, setOpen] = useState(false);
 
   return (
@@ -32,7 +32,7 @@ export function CompanySearch({ companies, onSelectCompany, currentCompany }: Co
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full justify-start">
           <Search className="mr-2 h-4 w-4" />
-          <span>{currentCompany.company}</span>
+          <span>{currentCompany?.name ?? 'Select a company'}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -44,21 +44,21 @@ export function CompanySearch({ companies, onSelectCompany, currentCompany }: Co
           <CommandList>
             <CommandEmpty>No companies found.</CommandEmpty>
             <CommandGroup>
-              {companies.map((company) => (
+              {mockCompanies.map((company) => (
                 <CommandItem
-                  key={company.company}
+                  key={company.id}
                   onSelect={() => {
-                    onSelectCompany(company);
+                    onSelectCompany(company.id);
                     setOpen(false);
                   }}
                 >
                   <div className="flex items-center">
-                    <img 
-                      src={company.logo_url} 
-                      alt={company.company} 
+                    <img
+                      src={company.logo_url}
+                      alt={company.name}
                       className="h-6 w-6 rounded-full mr-2"
                     />
-                    {company.company}
+                    {company.name}
                   </div>
                 </CommandItem>
               ))}

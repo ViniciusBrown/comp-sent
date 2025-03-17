@@ -8,3 +8,9 @@ pytz
 sqlparse
 psycopg2-binary
 python-dotenv
+pytest
+pytest-django
+pytest-mock
+pytest-cov
+pytest-asyncio
+freezegun

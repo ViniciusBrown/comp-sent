@@ -103,7 +103,7 @@ export function TopTweets({ company, data: propData, type }: TopTweetsProps) {
                       {tweet.sentiment.score.toFixed(2)}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(parseISO(tweet.created_at), { addSuffix: true })}
+                      {formatDistanceToNow(parseISO(new Date(tweet.created_at * 1000).toISOString()), { addSuffix: true })}
                     </span>
                   </div>
                 </div>

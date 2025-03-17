@@ -44,9 +44,16 @@ export interface Topic {
   sentiment_score: number;
 }
 
-export interface CompanySentiment {
-  company: string;
+export interface Company {
+  id: string;
+  name: string;
   logo_url: string;
+  description?: string;
+  industry?: string;
+  website?: string;
+}
+
+export interface CompanySentiment extends Company {
   time_period: string;
   sentiment_summary: SentimentSummary;
   sentiment_trend: SentimentTrendPoint[];
