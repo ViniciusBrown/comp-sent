@@ -1,14 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySentiment } from '@/types';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format, parseISO } from 'date-fns';
+import apiService from '@/lib/api';
 
 interface SentimentTrendProps {
-  data: CompanySentiment;
+  company?: string; // Optional company to fetch specific data
+  data?: CompanySentiment; // Optional data passed directly
 }
 
-export function SentimentTrend({ data }: SentimentTrendProps) {
+export function SentimentTrend({ company, data: propData }: SentimentTrendProps) {
+  const [data, setData] = useState<CompanySentiment | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!propData);
+
+  useEffect(() => {
+    // If data is provided through props, use it
+    if (propData) {
+      setData(propData);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch data if company is provided
+    if (company) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const response = await apiService.getCompanySentimentData(company);
+          setData(response);
+        } catch (err) {
+          setError(apiService.handleError(err).message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [company, propData]);
+
+  if (loading) {
+    return (
+      <Card className="h-[100%] w-[50%]">
+        <CardHeader>
+          <CardTitle>Loading sentiment trend...</CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="h-[100%] w-[50%]">
+        <CardHeader>
+          <CardTitle>Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-red-500">{error}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Card className="h-[100%] w-[50%]">
+        <CardHeader>
+          <CardTitle>No data available</CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
+
   const { sentiment_trend, time_period } = data;
   
   const formatDate = (dateString: string) => {
@@ -35,12 +102,6 @@ export function SentimentTrend({ data }: SentimentTrendProps) {
     date: formatDate(item.date),
   }));
 
-  // Adjust chart display based on data points
-  const getChartHeight = () => {
-    if (chartData.length <= 1) return "200px";
-    return "300px";
-  };
-
   // Determine if we need to show every label or skip some
   const getTickInterval = () => {
     if (chartData.length <= 10) return 0; // Show all labels
@@ -54,7 +115,7 @@ export function SentimentTrend({ data }: SentimentTrendProps) {
         <CardTitle>Sentiment Trend</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className=''>
+        <div style={{ width: '100%', height: '300px' }}>
           <ResponsiveContainer width="100%" height="100%">
             {chartData.length > 1 ? (
               <AreaChart
@@ -77,9 +138,9 @@ export function SentimentTrend({ data }: SentimentTrendProps) {
                 <YAxis yAxisId="left" domain={[0, 1]} tickFormatter={(value) => value.toFixed(1)} />
                 <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']} />
                 <Tooltip 
-                  formatter={(value, name) => {
-                    if (name === 'average_score') return [value.toFixed(2), 'Sentiment Score'];
-                    if (name === 'tweet_count') return [value.toLocaleString(), 'Tweet Count'];
+                  formatter={(value: number | string, name) => {
+                    if (name === 'average_score') return [typeof value === 'number' ? value.toFixed(2) : value, 'Sentiment Score'];
+                    if (name === 'tweet_count') return [typeof value === 'number' ? value.toLocaleString() : value, 'Tweet Count'];
                     return [value, name];
                   }}
                 />

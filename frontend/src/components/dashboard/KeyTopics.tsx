@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CompanySentiment } from '@/types';
+import apiService from '@/lib/api';
 
 interface KeyTopicsProps {
-  data: CompanySentiment;
+  company?: string; // Optional company to fetch specific data
+  data?: CompanySentiment; // Optional data passed directly
 }
 
-export function KeyTopics({ data }: KeyTopicsProps) {
+export function KeyTopics({ company, data: propData }: KeyTopicsProps) {
+  const [data, setData] = useState<CompanySentiment | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!propData);
+
+  useEffect(() => {
+    // If data is provided through props, use it
+    if (propData) {
+      setData(propData);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch data if company is provided
+    if (company) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const response = await apiService.getCompanySentimentData(company);
+          setData(response);
+        } catch (err) {
+          setError(apiService.handleError(err).message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [company, propData]);
+
   const getSentimentColor = (score: number) => {
     if (score >= 0.7) return 'bg-green-500';
     if (score >= 0.5) return 'bg-green-400';
@@ -13,6 +47,30 @@ export function KeyTopics({ data }: KeyTopicsProps) {
     if (score >= 0.3) return 'bg-orange-500';
     return 'bg-red-500';
   };
+
+  if (loading) {
+    return (
+      <div className="text-center py-4 text-muted-foreground">
+        Loading key topics...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-4 text-red-500">
+        {error}
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="text-center py-4 text-muted-foreground">
+        No data available
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

@@ -1,14 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySentiment } from '@/types';
+import apiService from '@/lib/api';
 
 interface SentimentSummaryProps {
-  data: CompanySentiment;
+  company?: string; // Optional company to fetch specific data
+  data?: CompanySentiment; // Optional data passed directly
 }
 
-export function SentimentSummary({ data }: SentimentSummaryProps) {
-  const { sentiment_summary } = data;
-  
+export function SentimentSummary({ company, data: propData }: SentimentSummaryProps) {
+  const [data, setData] = useState<CompanySentiment | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!propData);
+
+  useEffect(() => {
+    // If data is provided through props, use it
+    if (propData) {
+      setData(propData);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch data if company is provided
+    if (company) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const response = await apiService.getCompanySentimentData(company);
+          setData(response);
+        } catch (err) {
+          setError(apiService.handleError(err).message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [company, propData]);
+
   const getSentimentColor = (score: number) => {
     if (score >= 0.7) return 'text-green-500';
     if (score >= 0.5) return 'text-green-400';
@@ -16,6 +48,41 @@ export function SentimentSummary({ data }: SentimentSummaryProps) {
     if (score >= 0.3) return 'text-orange-500';
     return 'text-red-500';
   };
+
+  if (loading) {
+    return (
+      <Card className='min-h-full w-[50%]'>
+        <CardHeader>
+          <CardTitle>Loading sentiment data...</CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className='min-h-full w-[50%]'>
+        <CardHeader>
+          <CardTitle>Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-red-500">{error}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Card className='min-h-full w-[50%]'>
+        <CardHeader>
+          <CardTitle>No data available</CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  const { sentiment_summary } = data;
 
   return (
     <Card className='min-h-full w-[50%]'>

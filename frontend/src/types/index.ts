@@ -58,10 +58,11 @@ export interface CompanySentiment {
 }
 
 export interface User {
-  id: string;
+  id: number;
+  username: string;
   email: string;
-  name: string;
-  avatarUrl?: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface AuthState {

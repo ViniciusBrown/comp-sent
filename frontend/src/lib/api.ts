@@ -1,5 +1,6 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
+import axios from 'axios';
 import { getToken, removeToken, storeToken } from './jwt';
+import { User } from '@/types';
 
 // Base URL for API requests
 const API_BASE_URL = 'http://localhost:8000';
@@ -14,6 +15,8 @@ interface RegisterData {
   username: string;
   email: string;
   password: string;
+  first_name: string;
+  last_name: string;
 }
 
 interface TokenResponse {
@@ -25,27 +28,53 @@ interface RefreshTokenResponse {
   access: string;
 }
 
-// Create a class to manage API requests with JWT authentication
+// Extended request configuration type
+interface RequestConfig {
+  headers?: Record<string, string>;
+  _retry?: boolean;
+  [key: string]: any;
+}
+
+// API Endpoints configuration
+const API_ENDPOINTS = {
+  auth: {
+    login: '/api/token/',  // JWT token endpoint
+    register: '/api/user/register/',
+    refresh: '/api/token/refresh/',
+    profile: '/api/user/profile/',
+    csrf: '/api/csrf/'  // CSRF token endpoint
+  },
+  sentiment: {
+    all: '/api/social-media-data/',
+    byCompany: (company: string) => `/api/social-media-data/by-company/${company}/`,
+    process: '/api/social-media-data/etl/',
+    mockData: '/api/social-media-data/create-new-mocked-data/'
+  }
+} as const;
+
+// Base API service class
 class ApiService {
-  private api: AxiosInstance;
+  private api;
   private refreshTokenRequest: Promise<string> | null = null;
 
   constructor() {
-    // Create axios instance with default config
     this.api = axios.create({
       baseURL: API_BASE_URL,
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true, // Important for sending/receiving cookies
     });
 
-    // Add request interceptor to add auth token to requests
+    // Add request interceptor to ensure Authorization header
     this.api.interceptors.request.use(
       (config) => {
         const token = getToken();
-        if (token && config.headers) {
-          // Add token to Authorization header
-          config.headers.Authorization = `Bearer ${token}`;
+        if (token) {
+          config.headers = {
+            ...config.headers,
+            'Authorization': `Bearer ${token}`
+          };
         }
         return config;
       },
@@ -55,167 +84,150 @@ class ApiService {
     // Add response interceptor to handle token refresh
     this.api.interceptors.response.use(
       (response) => response,
-      async (error: AxiosError) => {
-        const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
-        
-        // If error is 401 Unauthorized and we haven't already tried to refresh the token
+      async (error) => {
+        if (!error.config || !error.response) {
+          return Promise.reject(error);
+        }
+
+        const originalRequest = error.config;
+
+        // If error is 401 and it's not a refresh token request
         if (
-          error.response?.status === 401 &&
+          error.response.status === 401 &&
           !originalRequest._retry &&
-          getToken() // Only try to refresh if we have a token
+          originalRequest.url !== API_ENDPOINTS.auth.refresh
         ) {
           originalRequest._retry = true;
 
           try {
-            // Get a new token
-            const newToken = await this.refreshToken();
-            
-            // Update the Authorization header with the new token
-            if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            } else {
-              originalRequest.headers = { Authorization: `Bearer ${newToken}` };
+            const refreshToken = localStorage.getItem('refresh_token');
+            if (!refreshToken) {
+              throw new Error('No refresh token available');
             }
-            
-            // Retry the original request with the new token
+
+            const response = await this.api.post<RefreshTokenResponse>(
+              API_ENDPOINTS.auth.refresh,
+              { refresh: refreshToken }
+            );
+
+            const newToken = response.data.access;
+            storeToken(newToken);
+
+            originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
             return this.api(originalRequest);
           } catch (refreshError) {
-            // If refresh token fails, log out the user
-            console.error('Token refresh failed:', refreshError);
+            // If refresh fails, logout
             this.logout();
             return Promise.reject(refreshError);
           }
         }
-        
-        // For other errors, just reject the promise
+
         return Promise.reject(error);
       }
     );
   }
 
-  /**
-   * Login user and get JWT tokens
-   */
-  async login(credentials: LoginCredentials): Promise<AxiosResponse<TokenResponse>> {
+  async login(credentials: LoginCredentials): Promise<User> {
     try {
-      const response = await axios.post<TokenResponse>(
-        `${API_BASE_URL}/api/token/`,
+      // Get JWT tokens
+      const response = await this.api.post<TokenResponse>(
+        API_ENDPOINTS.auth.login,
         credentials
       );
-      
-      // Store the access token
+
+      // Store tokens
       storeToken(response.data.access);
-      
-      // Store refresh token in a secure way (httpOnly cookie would be better in production)
       localStorage.setItem('refresh_token', response.data.refresh);
-      
-      return response;
+
+      // After successful login, get the user profile
+      const user = await this.getProfile();
+      return user;
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
     }
   }
 
-  /**
-   * Register a new user
-   */
-  async register(userData: RegisterData): Promise<AxiosResponse> {
-    return axios.post(`${API_BASE_URL}/api/user/register/`, userData);
-  }
-
-  /**
-   * Refresh the access token using the refresh token
-   */
-  async refreshToken(): Promise<string> {
-    // If there's already a refresh request in progress, return that promise
-    // This prevents multiple refresh requests if several API calls fail at once
-    if (this.refreshTokenRequest) {
-      return this.refreshTokenRequest;
-    }
-
-    // Create a new refresh token request
-    this.refreshTokenRequest = new Promise<string>(async (resolve, reject) => {
-      try {
-        const refreshToken = localStorage.getItem('refresh_token');
-        
-        if (!refreshToken) {
-          throw new Error('No refresh token available');
+  async register(userData: RegisterData): Promise<any> {
+    try {
+      // Make registration request
+      const response = await this.api.post<{ id: string; username: string; email: string }>(
+        API_ENDPOINTS.auth.register,
+        userData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-        
-        const response = await axios.post<RefreshTokenResponse>(
-          `${API_BASE_URL}/api/token/refresh/`,
-          { refresh: refreshToken }
-        );
-        
-        const newToken = response.data.access;
-        storeToken(newToken);
-        
-        resolve(newToken);
-      } catch (error) {
-        // If refresh fails, clear tokens and reject
-        this.logout();
-        reject(error);
-      } finally {
-        // Clear the refresh request
-        this.refreshTokenRequest = null;
-      }
-    });
+      );
 
-    return this.refreshTokenRequest;
+      // After successful registration, return the response
+      return response.data;
+    } catch (error) {
+      console.error('Registration failed:', error);
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { 
+          response?: { 
+            data?: Record<string, string[]> 
+          } 
+        };
+        
+        if (axiosError.response?.data) {
+          // Django sends validation errors as an object with field names as keys
+          const errorMessages = Object.entries(axiosError.response.data)
+            .map(([field, msgs]) => `${field}: ${msgs.join(', ')}`)
+            .join('; ');
+          throw new Error(errorMessages);
+        }
+      }
+      throw error;
+    }
   }
 
-  /**
-   * Log out the user by removing tokens
-   */
-  logout(): void {
+  async getProfile(): Promise<User> {
+    const response = await this.api.get<User>(API_ENDPOINTS.auth.profile);
+    return response.data;
+  }
+
+  async logout(): Promise<void> {
+    // For JWT, we just need to remove the tokens
     removeToken();
     localStorage.removeItem('refresh_token');
-    // You might want to redirect to login page or update app state here
+
+    // Clear Authorization header
+    delete this.api.defaults.headers.common['Authorization'];
   }
 
-  /**
-   * Generic GET request with authentication
-   */
-  async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.api.get<T>(url, config);
+  // Generic request methods
+  async get<T = any>(url: string, config?: RequestConfig): Promise<T> {
+    const response = await this.api.get<T>(url, config);
+    return response.data;
   }
 
-  /**
-   * Generic POST request with authentication
-   */
-  async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.api.post<T>(url, data, config);
+  async post<T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> {
+    const response = await this.api.post<T>(url, data, config);
+    return response.data;
   }
 
-  /**
-   * Generic PUT request with authentication
-   */
-  async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.api.put<T>(url, data, config);
+  async put<T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> {
+    const response = await this.api.put<T>(url, data, config);
+    return response.data;
   }
 
-  /**
-   * Generic PATCH request with authentication
-   */
-  async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.api.patch<T>(url, data, config);
+  async patch<T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> {
+    const response = await this.api.patch<T>(url, data, config);
+    return response.data;
   }
 
-  /**
-   * Generic DELETE request with authentication
-   */
-  async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.api.delete<T>(url, config);
+  async delete<T = any>(url: string, config?: RequestConfig): Promise<T> {
+    const response = await this.api.delete<T>(url, config);
+    return response.data;
   }
 
-  /**
-   * Handle API errors in a consistent way
-   */
   handleError(error: unknown): { message: string; status?: number } {
-    if (isAxiosError(error)) {
-      const axiosError = error as AxiosError;
+    if (error && typeof error === 'object' && 'response' in error) {
+      const axiosError = error as { response?: { status: number; data?: { message?: string } } };
       
-      // Handle specific status codes
       if (axiosError.response) {
         const status = axiosError.response.status;
         
@@ -247,25 +259,43 @@ class ApiService {
             };
         }
       }
-      
-      // Network errors
-      if (axiosError.request) {
-        return { 
-          message: 'Network error: Please check your internet connection' 
-        };
-      }
     }
     
-    // Generic error
-    return { 
-      message: error instanceof Error ? error.message : 'An unknown error occurred' 
-    };
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    
+    return { message: 'An unknown error occurred' };
+  }
+}
+
+// Extended API service with sentiment-specific methods
+class SentimentApiService extends ApiService {
+  async getAllSentimentData() {
+    return this.get(API_ENDPOINTS.sentiment.all);
+  }
+
+  async getCompanySentimentData(company: string) {
+    return this.get(API_ENDPOINTS.sentiment.byCompany(company));
+  }
+
+  async processSentimentData() {
+    return this.post(API_ENDPOINTS.sentiment.process);
+  }
+
+  async generateMockData() {
+    return this.post(API_ENDPOINTS.sentiment.mockData);
   }
 }
 
 // Create and export a singleton instance
-const apiService = new ApiService();
+const apiService = new SentimentApiService();
 export default apiService;
 
 // Export types for use in other files
-export type { LoginCredentials, RegisterData, TokenResponse };
+export type {
+  LoginCredentials,
+  RegisterData,
+  TokenResponse,
+  RequestConfig
+};

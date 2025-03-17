@@ -35,8 +35,7 @@ export function UserMenu({ onLoginClick }: UserMenuProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar>
-            <AvatarImage src={user.avatarUrl} alt={user.name} />
-            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+            <AvatarFallback>{getInitials(`${user.first_name} ${user.last_name}`)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -45,7 +44,7 @@ export function UserMenu({ onLoginClick }: UserMenuProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           <User className="mr-2 h-4 w-4" />
-          <span>{user.name}</span>
+          <span>{`${user.first_name} ${user.last_name}`}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">
           <span className="text-xs text-muted-foreground">{user.email}</span>

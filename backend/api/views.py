@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import generics
 from .serializers import UserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import SocialMediaData, SearchedCompanies, get_db_connection
 from django.views import View
 from django.http import JsonResponse
@@ -14,6 +16,23 @@ from .logics.data_mocking_logics import create_mocked_data_and_update_db
 
 
 # Create your views here.
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Get the current user's profile"""
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        """Update the current user's profile"""
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -22,7 +41,8 @@ class RegisterUser(generics.CreateAPIView):
 
 class GetSocialMediaData(View):
     def get(self, request):
-        _, session = get_db_connection()
+        _, Session = get_db_connection()
+        session = Session()
         data = session.query(SocialMediaData).all()
         session.close()
         
@@ -44,7 +64,8 @@ class GetSocialMediaData(View):
 
 class GetSocialMediaDataByCompany(View):
     def get(self, request, company):
-        _, session = get_db_connection()
+        _, Session = get_db_connection()
+        session = Session()
         data = session.query(SocialMediaData).filter(SocialMediaData.company == company).all()
         session.close()
         

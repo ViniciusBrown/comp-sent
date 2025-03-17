@@ -290,13 +290,13 @@ function App() {
                       <div>
                         <h3 className="text-lg font-medium">Top Positive Tweets</h3>
                         <Separator className="my-2" />
-                        <TopTweets tweets={filteredData.top_tweets.positive} />
+                        <TopTweets data={filteredData} type="positive" />
                       </div>
                       
                       <div>
                         <h3 className="text-lg font-medium">Top Negative Tweets</h3>
                         <Separator className="my-2" />
-                        <TopTweets tweets={filteredData.top_tweets.negative} />
+                        <TopTweets data={filteredData} type="negative" />
                       </div>
                     </div>
                   </CardContent>

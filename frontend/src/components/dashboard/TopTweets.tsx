@@ -1,15 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Tweet } from '@/types';
+import { Tweet, CompanySentiment } from '@/types';
 import { MessageSquare, Repeat, Heart, Share } from 'lucide-react';
+import apiService from '@/lib/api';
 
 interface TopTweetsProps {
-  tweets: Tweet[];
+  company?: string; // Optional company to fetch specific data
+  data?: CompanySentiment; // Optional data passed directly
+  type: 'positive' | 'negative'; // Which type of tweets to display
 }
 
-export function TopTweets({ tweets }: TopTweetsProps) {
+export function TopTweets({ company, data: propData, type }: TopTweetsProps) {
+  const [data, setData] = useState<CompanySentiment | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!propData);
+
+  useEffect(() => {
+    // If data is provided through props, use it
+    if (propData) {
+      setData(propData);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch data if company is provided
+    if (company) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const response = await apiService.getCompanySentimentData(company);
+          setData(response);
+        } catch (err) {
+          setError(apiService.handleError(err).message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [company, propData]);
+
   const getSentimentBadgeVariant = (label: string) => {
     switch (label) {
       case 'positive':
@@ -20,6 +55,32 @@ export function TopTweets({ tweets }: TopTweetsProps) {
         return 'neutral';
     }
   };
+
+  if (loading) {
+    return (
+      <div className="text-center py-4 text-muted-foreground">
+        Loading tweets...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-4 text-red-500">
+        {error}
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="text-center py-4 text-muted-foreground">
+        No data available
+      </div>
+    );
+  }
+
+  const tweets = type === 'positive' ? data.top_tweets.positive : data.top_tweets.negative;
 
   return (
     <div className="space-y-4">

@@ -21,7 +21,8 @@ export function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
   const [loginPassword, setLoginPassword] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
-  const [signupName, setSignupName] = useState('');
+  const [signupFirstName, setSignupFirstName] = useState('');
+  const [signupLastName, setSignupLastName] = useState('');
   
   const { login, signup } = useAuth();
   
@@ -46,7 +47,7 @@ export function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
     setIsLoading(true);
     
     try {
-      await signup(signupEmail, signupPassword, signupName);
+      await signup(signupEmail, signupPassword, signupFirstName, signupLastName);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign up');
@@ -112,13 +113,25 @@ export function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
             <form onSubmit={handleSignup}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name">Full Name</Label>
-                  <Input 
-                    id="signup-name" 
-                    type="text" 
-                    placeholder="John Doe" 
-                    value={signupName}
-                    onChange={(e) => setSignupName(e.target.value)}
+                  <Label htmlFor="signup-firstname">First Name</Label>
+                  <Input
+                    id="signup-firstname"
+                    type="text"
+                    placeholder="John"
+                    value={signupFirstName}
+                    onChange={(e) => setSignupFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="signup-lastname">Last Name</Label>
+                  <Input
+                    id="signup-lastname"
+                    type="text"
+                    placeholder="Doe"
+                    value={signupLastName}
+                    onChange={(e) => setSignupLastName(e.target.value)}
                     required
                   />
                 </div>
