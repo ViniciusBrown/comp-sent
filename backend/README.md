@@ -146,20 +146,34 @@ class Tweet(models.Model):
 
 ## 🧪 Testing Framework
 
-### Running Tests
+### Setting Up Tests
 ```bash
-# Run all tests
-python manage.py test
+# Install test dependencies
+pip install pytest pytest-django pytest-cov
+
+# Run all tests with pytest
+pytest
+
+# Run tests with verbose output
+pytest -v
 
 # Run specific test module
-python manage.py test api.tests.test_auth
-python manage.py test api.tests.test_models
-python manage.py test api.tests.test_social_media
+pytest api/tests/test_auth.py
+pytest api/tests/test_models.py
+pytest api/tests/test_social_media.py
 
-# Run with coverage report
-coverage run manage.py test
-coverage report
-coverage html  # Generates detailed HTML report
+# Run tests and generate coverage report
+pytest --cov=api
+pytest --cov=api --cov-report=html  # Generates HTML coverage report
+
+# Run tests matching specific pattern
+pytest -k "test_auth"  # Runs all tests with "test_auth" in the name
+
+# Run tests and show local variables on failures
+pytest -l
+
+# Run tests and break on first failure
+pytest -x
 ```
 
 ### Test Structure

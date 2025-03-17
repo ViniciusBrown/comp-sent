@@ -246,40 +246,107 @@ LIMIT 10;
 - Node.js 16+
 - PostgreSQL database (or Supabase account)
 
-### Installation
+## Running the Application
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/twitter-sentiment-dashboard.git
-   cd twitter-sentiment-dashboard
-   ```
+### Backend Setup
 
-2. Install Python dependencies:
+1. Set up Python virtual environment:
    ```bash
+   cd backend
+   python -m venv env
+   source env/bin/activate  # On Windows: .\env\Scripts\activate
    pip install -r requirements.txt
    ```
 
-3. Install frontend dependencies:
+2. Configure backend environment:
    ```bash
+   # Create .env file in backend directory
+   echo "DATABASE_URL=postgresql://postgres:password@localhost:5432/sentrack
+   SECRET_KEY=your-secret-key
+   DEBUG=True" > .env
+   ```
+
+3. Run migrations and start server:
+   ```bash
+   python manage.py migrate
+   python manage.py runserver
+   ```
+
+### Frontend Setup
+
+1. Install dependencies:
+   ```bash
+   cd frontend
    npm install
    ```
 
-4. Set up environment variables:
+2. Configure frontend environment:
    ```bash
-   export DATABASE_URL='postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres'
+   # Create .env file in frontend directory
+   echo "VITE_API_URL=http://localhost:8000" > .env
    ```
 
-5. Generate and load mock data:
-   ```bash
-   python direct_to_db.py
-   ```
-
-6. Start the development server:
+3. Start development server:
    ```bash
    npm run dev
    ```
 
-7. Open your browser and navigate to `http://localhost:5173`
+4. Open http://localhost:5173 in your browser
+
+## Running Tests
+
+### Frontend Tests
+
+1. Install test dependencies:
+   ```bash
+   npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+   ```
+
+2. Run tests:
+   ```bash
+   # Run all tests
+   npm test
+
+   # Run tests in watch mode
+   npm test -- --watch
+
+   # Run tests with coverage
+   npm test -- --coverage
+
+   # Run specific test file
+   npm test -- SentimentTrend.test.tsx
+
+   # Run tests matching a pattern
+   npm test -- -t "sentiment"
+   ```
+
+3. View test coverage:
+   ```bash
+   npm test -- --coverage --watchAll=false
+   # Coverage report will be available in coverage/lcov-report/index.html
+   ```
+
+## Development Commands
+
+```bash
+# Start development server
+npm run dev
+
+# Type checking
+npm run type-check
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
 
 ## 📝 License
 
